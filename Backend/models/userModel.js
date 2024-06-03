@@ -36,16 +36,6 @@ const userSchema = mongoose.Schema({
     cart: [cartSchema]
 });
 
-// Pre-save hook to hash the password
-async function hashPassword(next) {
-    const user = this;
-    if (!user.isModified('password')) return next();
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(user.password, salt);
-    user.password = hash;
-    next();
-}
-userSchema.pre('save', hashPassword);
 
 // Static method for user signup
 userSchema.statics.signup = async function(userName, password, passwordCheck) {
