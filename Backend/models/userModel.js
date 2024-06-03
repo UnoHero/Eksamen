@@ -38,13 +38,9 @@ const userSchema = mongoose.Schema({
 
 
 // Static method for user signup
-userSchema.statics.signup = async function(userName, password, passwordCheck) {
+userSchema.statics.signup = async function(userName, password) {
     if (!userName || !password) {
         throw Error("All fields must be filled");
-    }
-
-    if (password !== passwordCheck) {
-        throw Error("Passwords do not match");
     }
 
     // Validate password strength

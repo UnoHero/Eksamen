@@ -12,19 +12,19 @@ const requireAuth = require("../middleware/requireAuth")
 
 const router = express.Router()
 
-// GET all quotes
+// GET all Items
 router.get("/", getItems)
 
-// GET a single post
+// GET a single item
 router.get("/:id", getItem)
 
-// POST a new quote
+// POST a new item
 router.post("/", requireAuth, createItem)
 
-// DELETE a quote
+// DELETE a item
 router.delete("/:id", requireAuth, deleteItem)
 
-// UPDATE a quote
+// UPDATE a item
 router.patch("/:id", requireAuth, updateItem)
 
 module.exports = router;
