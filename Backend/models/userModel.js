@@ -5,13 +5,19 @@ const validator = require("validator");
 const PASSWORDLENGTH = 8;
 
 const cartSchema = mongoose.Schema({
-    items: {
-        type: Array
+    itemID: {
+        type: String,
+        required: true
+    },
+    quantity: {
+        type: Number,
+        required: true,
+        default: 1
     }
-});
+}, { timestamps: true });
 
 const userSchema = mongoose.Schema({
-    username: {
+    userName: {
         type: String,
         required: true,
         lowercase: true,
@@ -28,7 +34,7 @@ const userSchema = mongoose.Schema({
         minlength: [PASSWORDLENGTH, `Passwords must have at least ${PASSWORDLENGTH} characters`]
     },
     cart: [cartSchema]
-}, { timestamps: true });
+});
 
 // Pre-save hook to hash the password
 async function hashPassword(next) {
@@ -42,8 +48,8 @@ async function hashPassword(next) {
 userSchema.pre('save', hashPassword);
 
 // Static method for user signup
-userSchema.statics.signup = async function(username, password, passwordCheck) {
-    if (!username || !password) {
+userSchema.statics.signup = async function(userName, password, passwordCheck) {
+    if (!userName || !password) {
         throw Error("All fields must be filled");
     }
 
@@ -59,18 +65,18 @@ userSchema.statics.signup = async function(username, password, passwordCheck) {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
 
-    const user = await this.create({ username, password: hash });
+    const user = await this.create({ userName, password: hash });
 
     return user;
 };
 
 // Static method for user login
-userSchema.statics.login = async function(username, password) {
-    if (!username || !password) {
+userSchema.statics.login = async function(userName, password) {
+    if (!userName || !password) {
         throw Error("All fields must be filled");
     }
 
-    const user = await this.findOne({ username });
+    const user = await this.findOne({ userName });
     if (!user) {
         throw Error("Incorrect Username");
     }
