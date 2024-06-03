@@ -1,6 +1,8 @@
 // Login.js
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useLogin } from "../hooks/useLogin";
+import { Link } from "react-router-dom";
 
 // Styled Components
 const LoginContainer = styled.div`
@@ -43,6 +45,11 @@ const HoneyPot = styled.div`
     display: none;
 `;
 
+const Error = styled.div`
+    color: red;
+    margin-bottom: 1rem;
+`;
+
 const LoginButton = styled.button`
     padding: 0.75rem;
     border: none;
@@ -57,9 +64,12 @@ const LoginButton = styled.button`
 `;
 
 const Login = () => {
-    const [honeypot, setHoneypot] = useState('');
+    const [honeypot, setHoneypot] = useState("");
+    const [password, setPassword] = useState("");
+    const [userName, setUserName] = useState("");
+    const { login, error, isLoading } = useLogin();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (honeypot) {
             // If the honeypot field is filled, it's a bot
@@ -67,17 +77,26 @@ const Login = () => {
         }
         // Handle actual login submission
         console.log('Form submitted');
+        await login(userName, password)
     };
+
+    const handleUserNameChange = (e) => {
+        setUserName(e.target.value)
+    }
+
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value)
+    }
 
     return (
         <LoginContainer>
             <LoginForm onSubmit={handleSubmit}>
                 <Title>Login</Title>
                 <Label htmlFor="username">Username</Label>
-                <Input type="text" id="username" name="username" required />
+                <Input type="text" id="username" name="username" onChange={handleUserNameChange} required />
                 
                 <Label htmlFor="password">Password</Label>
-                <Input type="password" id="password" name="password" required />
+                <Input type="password" id="password" name="password" onChange={handlePasswordChange} required />
                 
                 {/* Honeypot field */}
                 <HoneyPot>
@@ -85,7 +104,8 @@ const Login = () => {
                     <Input type="text" id="honeypot" name="honeypot" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
                 </HoneyPot>
                 
-                <LoginButton type="submit">Login</LoginButton>
+                {error && <Error>{error}</Error>}
+                <LoginButton disabled={isLoading} type="submit">Login</LoginButton>
             </LoginForm>
         </LoginContainer>
     );

@@ -8,12 +8,14 @@ export const useLogin = () => {
   const [isLoading, setIsLoading] = useState(null)
   const { dispatch } = useAuthContext()
 
+  const URL = process.env.REACT_APP_URL
+
   const login = async (userName, password) => {
     setIsLoading(true)
     setError(null)
     
     // send login request to the backend
-    const response = await fetch("", {
+    const response = await fetch(URL+"/login", {
       method: "POST",
       headers: { "Content-Type" : "application/json"},
       // send the user name and password to the backend
