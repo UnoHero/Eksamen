@@ -29,38 +29,38 @@ const getItem = async (req, res) => {
 
 // create new Item
 const createItem = async (req, res) => {
-  const {userID, description, name, type, image } = req.body
+  const { userId, description, name, genre, image } = req.body; // Adjusted to match the fields sent by the frontend
 
-  let emptyFields = []
+  let emptyFields = [];
 
- 
-  if(!userID) {
-    emptyFields.push("userID")
+  if (!userId) {
+      emptyFields.push("userId");
   }
-  if(!description) {
-    emptyFields.push("description")
+  if (!description) {
+      emptyFields.push("description");
   }
-  if(!name) {
-    emptyFields.push("name")
+  if (!name) {
+      emptyFields.push("name");
   }
-  if(!type) {
-    emptyFields.push("type")
+  if (!genre) {
+      emptyFields.push("genre");
   }
-  if(!image) {
-    emptyFields.push("image")
+  if (!image) {
+      emptyFields.push("image");
   }
-  if(emptyFields.length > 0) {
-    return res.status(400).json({ error: "Please fill in all the fields", emptyFields })
+  if (emptyFields.length > 0) {
+      return res.status(400).json({ error: "Please fill in all the fields", emptyFields });
   }
 
   // add doc to DB
   try {
-    const item = await Item.create({userID, description, name, type, image})
-    res.status(200).json(item)
+      const item = await Item.create({ userId, description, name, genre, image });
+      res.status(200).json(item);
   } catch (error) {
-    res.status(400).json({error: error.message})
+      res.status(400).json({ error: error.message });
   }
-}
+};
+
 
 // deleta a Item
 const deleteItem = async (req, res) => {

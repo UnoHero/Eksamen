@@ -5,6 +5,23 @@ const createToken = (_id) => {
   return jwt.sign({_id}, process.env.SECRET, { expiresIn: "2h" })
 }
 
+// get _id of user
+const user = async (req, res) => {
+  const { userSearch } = req.body; 
+  try {
+    const foundUser = await User.findOne({ "userName": `${userSearch}` });
+
+    if (!foundUser) {
+      return res.status(400).json({ error: "No user with that name" });
+    }
+
+    res.status(200).json({ _id: foundUser._id });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+
 // login a user
 const loginUser = async (req, res) => {
   const {userName, password} = req.body
@@ -37,4 +54,4 @@ const signupUser = async (req, res) => {
   }
 }
 
-module.exports = { signupUser, loginUser }
+module.exports = { user, signupUser, loginUser }
