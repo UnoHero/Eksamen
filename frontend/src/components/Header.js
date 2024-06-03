@@ -1,7 +1,8 @@
-// Header.js
 import React from 'react';
 import styled from 'styled-components';
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useLogout } from "../hooks/useLogout";
+import { useAuthContext } from '../hooks/useAuthContext';
 
 // Styled Components
 const HeaderContainer = styled.header`
@@ -65,21 +66,70 @@ const SignUpButton = styled(Link)`
     }
 `;
 
+// Styling for Home Link and Log Out Button
+const HomeLink = styled(Link)`
+    color: #333;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    border: 1px solid #333;
+
+    &:hover {
+        background-color: #333;
+        color: white;
+    }
+`;
+
+const LogoutButton = styled.button`
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #dc3545;
+    color: white;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #c82333;
+    }
+`;
+
 const Header = () => {
+    const { logout } = useLogout();
+    const { user } = useAuthContext();
+
+    const handleClick = () => {
+        logout();
+    }
+
+    const storedDataString = localStorage?.getItem("user");
+    const storedData = JSON.parse(storedDataString);
+    const username = storedData?.userName;
+    
+
     return (
         <HeaderContainer>
             <Link to="/">
                 <Logo src="" alt="Logo" />
             </Link>
-            <WelcomeMessage>Welcome</WelcomeMessage>
+            <WelcomeMessage>
+                ... {username && <span>{username}</span>}
+            </WelcomeMessage>
             <AuthButtons>
-                <LoginButton to="/login">Login</LoginButton>
-                <SignUpButton to="/signup">Sign Up</SignUpButton>
+                {user ? (
+                    <>
+                        <HomeLink to={"/home"}>Home</HomeLink>
+                        <LogoutButton onClick={handleClick}>Log Out</LogoutButton>
+                    </>
+                ) : (
+                    <>
+                        <LoginButton to="/login">Login</LoginButton>
+                        <SignUpButton to="/signup">Sign Up</SignUpButton>
+                    </>
+                )}
             </AuthButtons>
         </HeaderContainer>
     );
 }
 
 export default Header;
-
-
