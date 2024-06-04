@@ -6,15 +6,18 @@ import { useAuthContext } from '../hooks/useAuthContext';
 
 // Styled Components
 const HeaderContainer = styled.header`
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: auto 1fr auto; /* Logo, WelcomeMessage, AuthButtons */
     align-items: center;
     padding: 10px 20px;
     background-color: #f8f9fa;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
 
     @media (max-width: 768px) {
-        flex-direction: column;
+        grid-template-columns: 1fr; /* Single column layout for smaller screens */
     }
 `;
 
@@ -24,12 +27,15 @@ const Logo = styled.img`
 `;
 
 const WelcomeMessage = styled.div`
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     text-align: center;
-    flex: 1; // Allow the message to grow and take up remaining space
-    display: flex; // Center the message horizontally
-    justify-content: center; // Center the message horizontally
-    align-items: center; // Center the message vertically
+    display: grid; 
+    align-items: center; 
+    padding-left: 5%;
+
+    /* Add margin to separate ThreadTrove and username */
+    span {
+    }
 
     @media (max-width: 768px) {
         margin: 10px 0;
@@ -39,7 +45,9 @@ const WelcomeMessage = styled.div`
 const AuthButtons = styled.div`
     display: flex;
     gap: 10px;
-    flex: 0 0 auto; // Prevent the buttons from stretching
+    justify-content: flex-end; 
+    overflow-x: auto; 
+    margin-right: 40px; 
 `;
 
 const LoginButton = styled(Link)`
@@ -117,7 +125,7 @@ const Header = () => {
                 <Logo src="" alt="Logo" />
             </Link>
             <WelcomeMessage>
-                ... {username && <span>{username}</span>}
+                ThreadTrove {username && <span>-{username}</span>}
             </WelcomeMessage>
             <AuthButtons>
                 {user ? (
