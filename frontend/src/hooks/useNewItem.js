@@ -31,7 +31,6 @@ export const useNewItem = () => {
         const data = await response.json();
         setTShirt(data.tShirt);
         setSweater(data.sweater);
-        console.log(data);
       }
     } catch (error) {
       setError("An error occurred while fetching data.");
