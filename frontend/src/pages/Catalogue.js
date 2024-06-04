@@ -5,9 +5,20 @@ import { useCategory } from '../hooks/useCategory';
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
-  padding: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  padding: 100px 200px 0 200px;
+  justify-content: center;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 100px;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    padding: 50px;
+  }
 `;
 
 const Box = styled.div`
@@ -21,7 +32,6 @@ const Box = styled.div`
 
 const Image = styled.img`
   max-width: 100%;
-  height: auto;
 `;
 
 const Name = styled.h3`
@@ -31,7 +41,6 @@ const Name = styled.h3`
 const Description = styled.p`
   color: #555;
 `;
-
 const Catalogue = () => {
   const { kategori } = useParams();
   const { searchCategory, addIsLoading, addError, categoryData } = useCategory();
