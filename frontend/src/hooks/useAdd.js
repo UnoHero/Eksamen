@@ -15,6 +15,8 @@ export const useAdd = () => {
         setIsLoading(true);
         setError(null);
         
+        const name = apparelName
+
         await getUserByID(user.userName);
         const response = await fetch(URL + "/item", {
             method: "POST",
@@ -22,7 +24,7 @@ export const useAdd = () => {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${user.token}`
             },
-            body: JSON.stringify({ apparelName, image, genre, description, userId }) 
+            body: JSON.stringify({ name, image, genre, description, userId }) 
         });
 
         if (!response.ok) {
@@ -30,8 +32,10 @@ export const useAdd = () => {
             setIsLoading(false);
             setError(errorData.error);
             return;
+        } else {
+            console.log("item saved sucsessfully!");
         }
-
+        
         setIsLoading(false);
     };
     

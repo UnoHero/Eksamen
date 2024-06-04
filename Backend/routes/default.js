@@ -19,7 +19,7 @@ router.get("/", getItems)
 router.get("/:id", getItem)
 
 // POST a new item
-router.post("/", requireAuth, createItem)
+router.post("/item", requireAuth, createItem)
 
 // DELETE a item
 router.delete("/:id", requireAuth, deleteItem)

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const itemSchema = new mongoose.Schema({
-    userID: {
+    userId: {
         type: String,
         required: true,
     },
@@ -14,7 +14,7 @@ const itemSchema = new mongoose.Schema({
         required: true,
         maxlength: [100, 'Description cannot exceed 100 characters.'],
     },
-    type: {
+    genre: {
         type: String,
         required: true,
     },
