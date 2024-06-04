@@ -31,6 +31,6 @@ export const useDelete = () => {
       }
   };
 
-  return { del, delIsLoading, delError};
+  return { del, delIsLoading, delError };
 }
  

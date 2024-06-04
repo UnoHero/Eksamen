@@ -65,13 +65,22 @@ const Home = () => {
     const [image, setApparelImgUrl] = useState('');
     const [genre, setGenre] = useState('');
     const [description, setDescription] = useState('');
-    const { add, addIsLoading, addError } = useAdd();
+    const { add, addIsLoading, addError, ok } = useAdd();
 
     const handleAddAparel = async (e) => {
         e.preventDefault();
         // Pass the necessary values to the add function
-        await add(apparelName, image, genre, description);
+        try {
+            await add(apparelName, image, genre, description);
+            if (!addError) {
+                //window.location.href = "/"
+            }
+        } catch (error) {
+            console.error("Failed to add:", error);
+        }
     };
+
+
 
     return (
         <HomeContainer>

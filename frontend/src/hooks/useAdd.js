@@ -18,25 +18,28 @@ export const useAdd = () => {
         const name = apparelName
 
         await getUserByID(user.userName);
-        const response = await fetch(URL + "/item/add", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${user.token}`
-            },
-            body: JSON.stringify({ name, image, genre, description, userId }) 
-        });
 
-        if (!response.ok) {
-            const errorData = await response.json();
+        if (userId) {
+            const response = await fetch(URL + "/item/add", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${user.token}`
+                },
+                body: JSON.stringify({ name, image, genre, description, userId }) 
+            });
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                setIsLoading(false);
+                setError(errorData.error);
+                return;
+            } else {
+                console.log("item saved sucsessfully!");
+            }
+            
             setIsLoading(false);
-            setError(errorData.error);
-            return;
-        } else {
-            console.log("item saved sucsessfully!");
         }
-        
-        setIsLoading(false);
     };
     
     return { add, addIsLoading, addError };
