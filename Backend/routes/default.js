@@ -3,6 +3,7 @@ const express = require("express")
 const {
     getItems,
     getItem,
+    getNewItems,
     createItem,
     deleteItem,
     updateItem,
@@ -15,11 +16,14 @@ const router = express.Router()
 // GET all Items
 router.get("/", getItems)
 
-// GET a single item
-router.get("/:id", getItem)
+// GET the newest item from both katagoris
+router.get("/new", getNewItems)
 
 // POST a new item
-router.post("/item", requireAuth, createItem)
+router.post("/item/add", requireAuth, createItem)
+
+// GET a single item
+router.get("/:id", getItem)
 
 // DELETE a item
 router.delete("/:id", requireAuth, deleteItem)

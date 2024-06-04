@@ -27,6 +27,22 @@ const getItem = async (req, res) => {
   res.status(200).json(item)
 }
 
+// GET the newest item from both katagoris
+const getNewItems = async (req, res) => {
+  try {
+    const newsetTShirt = await Item.findOne({ genre: "t-shirt" }).sort({ createdAt: -1 }).exec();
+    const newestSweater = await Item.findOne({ genre: "sweater" }).sort({ createdAt: -1 }).exec();
+    console.log(newsetTShirt, newestSweater);
+    res.status(200).json({
+      tShirt: newsetTShirt,
+      sweater: newestSweater
+    });
+  } catch (error) {
+    console.error((error));
+    res.status(500).json({ message: "Internal Server Error" })
+  }
+}
+
 // create new Item
 const createItem = async (req, res) => {
   const { userId, description, name, genre, image } = req.body; // Adjusted to match the fields sent by the frontend
@@ -98,6 +114,7 @@ const updateItem = async (req, res) => {
 module.exports = {
   getItems,
   getItem,
+  getNewItems,
   createItem,
   deleteItem,
   updateItem,

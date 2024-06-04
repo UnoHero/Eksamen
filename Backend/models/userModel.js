@@ -5,7 +5,7 @@ const validator = require("validator");
 const PASSWORDLENGTH = 8;
 
 const cartSchema = mongoose.Schema({
-    itemID: {
+    itemId: {
         type: String,
         required: true
     },

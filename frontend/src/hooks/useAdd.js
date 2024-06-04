@@ -18,7 +18,7 @@ export const useAdd = () => {
         const name = apparelName
 
         await getUserByID(user.userName);
-        const response = await fetch(URL + "/item", {
+        const response = await fetch(URL + "/item/add", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
