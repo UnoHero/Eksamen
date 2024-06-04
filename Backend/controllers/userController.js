@@ -21,6 +21,27 @@ const user = async (req, res) => {
   }
 };
 
+// check if user is admin
+const admin = async (req, res) => {
+  const { userName } = req.body;
+  try {
+    const foundUser = await User.findOne({ "userName": `${userName}` });
+    
+    if (!foundUser) {
+      return res.status(400).json({ error: "No user with that name" });
+    }
+
+    if (foundUser.admin == false) {
+      return res.status(400).json({ message: `${userName} is not admin` })
+    }
+
+    res.status(200).json({ admin: "true" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  
+  }
+};
+
 
 // login a user
 const loginUser = async (req, res) => {
@@ -54,4 +75,9 @@ const signupUser = async (req, res) => {
   }
 }
 
-module.exports = { user, signupUser, loginUser }
+module.exports = { 
+  user, 
+  admin,
+  signupUser, 
+  loginUser 
+}
