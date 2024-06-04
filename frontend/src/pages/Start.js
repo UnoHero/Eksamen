@@ -84,7 +84,7 @@ const Start = () => {
             <p>{tShirt.description}</p>
             <p>Genre: {tShirt.genre}</p>
           </div>
-          <LinkButton to="/item/tshirt">View T-Shirts</LinkButton>
+          <LinkButton to="/item/t-shirt">View T-Shirts</LinkButton>
         </ItemBox>
       )}
     </Container>

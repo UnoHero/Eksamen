@@ -4,6 +4,7 @@ const {
     getItems,
     getItem,
     getNewItems,
+    getCategory,
     createItem,
     deleteItem,
     updateItem,
@@ -21,6 +22,9 @@ router.get("/new", getNewItems)
 
 // POST a new item
 router.post("/item/add", requireAuth, createItem)
+
+// GET based on category
+router.get("/item/:category", getCategory)
 
 // GET a single item
 router.get("/:id", getItem)

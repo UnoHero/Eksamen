@@ -32,11 +32,23 @@ const getNewItems = async (req, res) => {
   try {
     const newsetTShirt = await Item.findOne({ genre: "t-shirt" }).sort({ createdAt: -1 }).exec();
     const newestSweater = await Item.findOne({ genre: "sweater" }).sort({ createdAt: -1 }).exec();
-    console.log(newsetTShirt, newestSweater);
     res.status(200).json({
       tShirt: newsetTShirt,
       sweater: newestSweater
     });
+  } catch (error) {
+    console.error((error));
+    res.status(500).json({ message: "Internal Server Error" })
+  }
+}
+
+// GET based on category
+const getCategory = async (req, res) => {
+  const { category } = req.params
+  try {
+    const newSet = await Item.find({ genre: `${category}` }).sort({ createdAt: -1 }).exec();
+    res.status(200).json({newSet})
+
   } catch (error) {
     console.error((error));
     res.status(500).json({ message: "Internal Server Error" })
@@ -115,6 +127,7 @@ module.exports = {
   getItems,
   getItem,
   getNewItems,
+  getCategory,
   createItem,
   deleteItem,
   updateItem,
