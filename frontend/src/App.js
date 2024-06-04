@@ -16,6 +16,7 @@ import Item from "./pages/Item";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import NotFound from "./pages/NotFound";
 
 function App() {
   const { user } = useAuthContext();
@@ -35,7 +36,7 @@ function App() {
             element={user ? <Home />  : <Navigate to={"/"} />}
           />
           <Route
-            path="/:kategori"
+            path="/item/:kategori"
             element={<Catalogue />}
           />
           <Route  
@@ -54,6 +55,10 @@ function App() {
           <Route
             path="/signup"
             element={user ? <Signup /> : <Navigate to={"/"} />}
+          />
+          <Route
+            path="*"
+            element={<NotFound />}
           />
         </Routes>
       </div>

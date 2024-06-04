@@ -73,7 +73,7 @@ const Start = () => {
             <p>{sweater.description}</p>
             <p>Genre: {sweater.genre}</p>
           </div>
-          <LinkButton to="/sweater">View Sweaters</LinkButton>
+          <LinkButton to="/item/sweater">View Sweaters</LinkButton>
         </ItemBox>
       )}
       {tShirt && (
@@ -84,7 +84,7 @@ const Start = () => {
             <p>{tShirt.description}</p>
             <p>Genre: {tShirt.genre}</p>
           </div>
-          <LinkButton to="/tshirt">View T-Shirts</LinkButton>
+          <LinkButton to="/item/tshirt">View T-Shirts</LinkButton>
         </ItemBox>
       )}
     </Container>
