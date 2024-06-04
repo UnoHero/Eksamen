@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useCategory } from '../hooks/useCategory';
+import { Link } from "react-router-dom";
 
 const Grid = styled.div`
   display: grid;
@@ -41,6 +42,13 @@ const Name = styled.h3`
 const Description = styled.p`
   color: #555;
 `;
+
+const Linked = styled(Link) `
+  text-decoration: none;
+  color: black;
+`;
+
+
 const Catalogue = () => {
   const { kategori } = useParams();
   const { searchCategory, addIsLoading, addError, categoryData } = useCategory();
@@ -65,13 +73,15 @@ const Catalogue = () => {
     switch (kategori) {
       case 't-shirt':
         return (
-            <Grid>
+          <Grid>
             {categoryData.newSet.map((item) => (
-              <Box key={item._id}>
-                <Image src={item.image} alt={item.name} />
-                <Name>{item.name}</Name>
-                <Description>{item.description}</Description>
-              </Box>
+              <Linked to={`/${item._id}`}>
+                <Box key={item._id}>
+                  <Image src={item.image} alt={item.name} />
+                  <Name>{item.name}</Name>
+                  <Description>{item.description}</Description>
+                </Box>
+              </Linked>
             ))}
           </Grid>
         );
@@ -79,11 +89,13 @@ const Catalogue = () => {
         return (
           <Grid>
             {categoryData.newSet.map((item) => (
-              <Box key={item._id}>
-                <Image src={item.image} alt={item.name} />
-                <Name>{item.name}</Name>
-                <Description>{item.description}</Description>
-              </Box>
+              <Linked to={`/${item._id}`}>
+                <Box key={item._id}>
+                  <Image src={item.image} alt={item.name} />
+                  <Name>{item.name}</Name>
+                  <Description>{item.description}</Description>
+                </Box>
+              </Linked>
             ))}
           </Grid>
         );
