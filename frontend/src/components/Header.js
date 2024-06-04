@@ -26,7 +26,10 @@ const Logo = styled.img`
 const WelcomeMessage = styled.div`
     font-size: 1.2rem;
     text-align: center;
-    flex: 1;
+    flex: 1; // Allow the message to grow and take up remaining space
+    display: flex; // Center the message horizontally
+    justify-content: center; // Center the message horizontally
+    align-items: center; // Center the message vertically
 
     @media (max-width: 768px) {
         margin: 10px 0;
@@ -36,6 +39,7 @@ const WelcomeMessage = styled.div`
 const AuthButtons = styled.div`
     display: flex;
     gap: 10px;
+    flex: 0 0 auto; // Prevent the buttons from stretching
 `;
 
 const LoginButton = styled(Link)`

@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import { useNewItem } from "../hooks/useNewItem";
 
 const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-height: 80vh;
   padding: 20px;
 
   @media (max-width: 768px) {
@@ -23,6 +24,8 @@ const ItemBox = styled.div`
   width: 100%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: #fff;
+  display: flex;
+  flex-direction: column;
 
   @media (max-width: 768px) {
     max-width: 100%;
@@ -33,6 +36,16 @@ const ItemImage = styled.img`
   max-width: 100%;
   height: auto;
   border-radius: 4px;
+`;
+
+const LinkButton = styled(Link)`
+  margin-top: 16px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  text-align: center;
 `;
 
 const Start = () => {
@@ -54,18 +67,24 @@ const Start = () => {
     <Container>
       {sweater && (
         <ItemBox>
-          <h2>{sweater.name}</h2>
-          <p>{sweater.description}</p>
-          <p>Genre: {sweater.genre}</p>
-          <ItemImage src={sweater.image} alt={sweater.name} />
+          <div>
+            <ItemImage src={sweater.image} alt={sweater.name} />
+            <h2>{sweater.name}</h2>
+            <p>{sweater.description}</p>
+            <p>Genre: {sweater.genre}</p>
+          </div>
+          <LinkButton to="/sweater">View Sweaters</LinkButton>
         </ItemBox>
       )}
       {tShirt && (
         <ItemBox>
-          <h2>{tShirt.name}</h2>
-          <p>{tShirt.description}</p>
-          <p>Genre: {tShirt.genre}</p>
-          <ItemImage src={tShirt.image} alt={tShirt.name} />
+          <div>
+            <ItemImage src={tShirt.image} alt={tShirt.name} />
+            <h2>{tShirt.name}</h2>
+            <p>{tShirt.description}</p>
+            <p>Genre: {tShirt.genre}</p>
+          </div>
+          <LinkButton to="/tshirt">View T-Shirts</LinkButton>
         </ItemBox>
       )}
     </Container>
