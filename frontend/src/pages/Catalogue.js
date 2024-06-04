@@ -75,8 +75,8 @@ const Catalogue = () => {
         return (
           <Grid>
             {categoryData.newSet.map((item) => (
-              <Linked to={`/${item._id}`}>
-                <Box key={item._id}>
+              <Linked key={item._id} to={`/${item._id}`}>
+                <Box>
                   <Image src={item.image} alt={item.name} />
                   <Name>{item.name}</Name>
                   <Description>{item.description}</Description>
@@ -89,8 +89,8 @@ const Catalogue = () => {
         return (
           <Grid>
             {categoryData.newSet.map((item) => (
-              <Linked to={`/${item._id}`}>
-                <Box key={item._id}>
+              <Linked key={item._id} to={`/${item._id}`}>
+                <Box >
                   <Image src={item.image} alt={item.name} />
                   <Name>{item.name}</Name>
                   <Description>{item.description}</Description>

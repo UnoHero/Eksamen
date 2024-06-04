@@ -1,90 +1,75 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from '../hooks/useAuthContext';
 
 // Styled Components
 const HeaderContainer = styled.header`
-    display: grid;
-    grid-template-columns: auto 1fr auto; /* Logo, WelcomeMessage, AuthButtons */
+    display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 10px 20px;
     background-color: #f8f9fa;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: fixed;
-    width: 100%;
+    width: 95%;
     top: 0;
+    z-index: 1000;
 
     @media (max-width: 768px) {
-        grid-template-columns: 1fr; /* Single column layout for smaller screens */
+        padding: 10px;
     }
 `;
 
 const Logo = styled.img`
-    width: 150px; // Adjust as needed
-    height: auto; // Maintain aspect ratio
+    width: 120px;
+    height: auto;
 `;
 
 const WelcomeMessage = styled.div`
-    font-size: 1.3rem;
+    font-size: 1.1rem;
+    flex-grow: 1;
     text-align: center;
-    display: grid; 
-    align-items: center; 
-    padding-left: 5%;
-
-    /* Add margin to separate ThreadTrove and username */
-    span {
-    }
 
     @media (max-width: 768px) {
-        margin: 10px 0;
+        display: none;
     }
 `;
 
 const AuthButtons = styled.div`
     display: flex;
     gap: 10px;
-    justify-content: flex-end; 
-    overflow-x: auto; 
-    margin-right: 40px; 
+
+    @media (max-width: 768px) {
+        gap: 5px;
+    }
 `;
 
-const LoginButton = styled(Link)`
+const Button = styled(Link)`
     padding: 5px 10px;
     border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+
+    &:hover {
+        opacity: 0.8;
+    }
+`;
+
+const LoginButton = styled(Button)`
     background-color: #007bff;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-    text-decoration: none;
-
-    &:hover {
-        background-color: #0056b3;
-    }
 `;
 
-const SignUpButton = styled(Link)`
-    padding: 5px 10px;
-    border: none;
+const SignUpButton = styled(Button)`
     background-color: #28a745;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-    text-decoration: none;
-
-    &:hover {
-        background-color: #218838;
-    }
 `;
 
-// Styling for Home Link and Log Out Button
-const HomeLink = styled(Link)`
-    color: #333;
-    text-decoration: none;
-    padding: 5px 10px;
-    border-radius: 4px;
+const HomeLink = styled(Button)`
     background-color: #f8f9fa;
+    color: #333;
     border: 1px solid #333;
 
     &:hover {
@@ -118,7 +103,6 @@ const Header = () => {
     const storedData = JSON.parse(storedDataString);
     const username = storedData?.userName;
     
-
     return (
         <HeaderContainer>
             <Link to="/">

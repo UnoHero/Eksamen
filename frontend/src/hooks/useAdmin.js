@@ -5,43 +5,45 @@ import { useAuthContext } from "../hooks/useAuthContext";
 export const useAdmin = () => {
     const { user } = useAuthContext();
     const [adminError, setAdminError] = useState(null);
-    const [adminIsLoading, setAdminIsLoading] = useState(null);
-    const [answer, setAnswer] = useState(false);
+    const [adminIsLoading, setAdminIsLoading] = useState(false);
+    const [answer, setAnswer] = useState(null);
 
     const URL = process.env.REACT_APP_URL;
 
     const admin = async () => {
         setAdminIsLoading(true);
         setAdminError(null);
-
-        try {
-            const userName = user?.userName;
-
-            const response = await fetch(URL + "/admin", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${user?.token}`
-                },
-                body: JSON.stringify({ userName })
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                setAdminError(errorData.error);
-            } else {
-                console.log("Admin check successful");
-                const data = await response.json();
-
-                if (data.admin == "true") {
-                    setAnswer(data.admin);
-                    console.log(answer);
+        
+        if (user) {
+            try {
+                const userName = user?.userName;
+    
+                const response = await fetch(URL + "/admin", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${user?.token}`
+                    },
+                    body: JSON.stringify({ userName })
+                });
+    
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    setAdminError(errorData.error);
+                } else {
+                    console.log("Admin check successful");
+                    const data = await response.json();
+    
+                    if (data.admin == "true") {
+                        setAnswer(data.admin);
+                        console.log(data.admin);
+                    }
                 }
+            } catch (error) {
+                setAdminError("An error occurred while checking admin status.");
+            } finally {
+                setAdminIsLoading(false);
             }
-        } catch (error) {
-            setAdminError("An error occurred while checking admin status.");
-        } finally {
-            setAdminIsLoading(false);
         }
     };
 

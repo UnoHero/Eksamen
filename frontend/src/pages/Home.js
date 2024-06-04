@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useAdd } from "../hooks/useAdd";
+import { useAdmin } from "../hooks/useAdmin";
+
 
 const HomeContainer = styled.div`
     display: flex;
@@ -66,6 +68,29 @@ const Home = () => {
     const [genre, setGenre] = useState('');
     const [description, setDescription] = useState('');
     const { add, addIsLoading, addError, ok } = useAdd();
+    const { admin, adminIsLoading, adminError, answer } = useAdmin();
+
+    useEffect(() => {
+        const fetchAdminStatus = async () => {
+            try {
+                await admin();
+                console.log(adminIsLoading);
+                if (adminIsLoading == false) {
+                    console.log(answer);
+                    if (answer == "true") {
+                        console.log("welcome");
+                    } else {
+                        //window.location.href = "/"
+                    }
+                }
+            } catch (error) {
+                // Handle error if needed
+                console.error("Error fetching admin status:", error);
+            }
+        };
+    
+        fetchAdminStatus();
+    }, []);
 
     const handleAddAparel = async (e) => {
         e.preventDefault();
@@ -73,7 +98,8 @@ const Home = () => {
         try {
             await add(apparelName, image, genre, description);
             if (!addError) {
-                //window.location.href = "/"
+                // Redirect user to "/" after successful addition
+                // window.location.href = "/"
             }
         } catch (error) {
             console.error("Failed to add:", error);

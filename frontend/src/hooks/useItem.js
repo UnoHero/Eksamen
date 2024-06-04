@@ -30,7 +30,6 @@ export const useItem = () => {
         console.log("Get fetch successful!");
         const data = await response.json();
         setItemData(data);
-        console.log(data);
       }
     } catch (error) {
       setError("An error occurred while fetching data.");

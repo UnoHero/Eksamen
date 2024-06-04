@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuthContext } from "./hooks/useAuthContext";
+import { useAdmin } from "./hooks/useAdmin";
 
 
 import './index.css';
@@ -20,6 +21,23 @@ import NotFound from "./pages/NotFound";
 
 function App() {
   const { user } = useAuthContext();
+  const { admin, adminIsLoading, adminError, answer } = useAdmin();
+
+
+  useEffect(() => {
+    const fetchAdminStatus = async () => {
+        try {
+            await admin();
+        } catch (error) {
+            // Handle error if needed
+            console.error("Error fetching admin status:", error);
+        }
+    };
+
+    if (user) {
+      fetchAdminStatus();
+    }
+  }, [user]);
 
   return (
     <div className="App">
@@ -33,7 +51,7 @@ function App() {
           />
           <Route /* Protect */
             path="/home"
-            element={user ? <Home />  : <Navigate to={"/"} />}
+            element={admin && user ? <Home />  : <Navigate to={"/"} />}
           />
           <Route
             path="/item/:kategori"
