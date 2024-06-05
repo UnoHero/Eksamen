@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useAdd } from "../hooks/useAdd";
 import { useAdmin } from "../hooks/useAdmin";
 
-
 const HomeContainer = styled.div`
     display: flex;
     justify-content: center;
@@ -62,6 +61,10 @@ const SubmitButton = styled.button`
     }
 `;
 
+const HiddenHoneypot = styled.input`
+    display: none;
+`;
+
 const LoadingMessage = styled.div`
     font-size: 1.5em;
     color: #007bff;
@@ -72,6 +75,7 @@ const Home = () => {
     const [image, setApparelImgUrl] = useState('');
     const [genre, setGenre] = useState('');
     const [description, setDescription] = useState('');
+    const [honeypot, setHoneypot] = useState(''); // Honeypot field
     const { add, addIsLoading, addError, ok } = useAdd();
     const { admin, adminIsLoading, adminError, answer } = useAdmin();
 
@@ -100,7 +104,12 @@ const Home = () => {
 
     const handleAddAparel = async (e) => {
         e.preventDefault();
-        // Pass the necessary values to the add function
+        // If honeypot field is filled, do nothing
+        if (honeypot) {
+            console.log("Bot detected");
+            return;
+        }
+
         try {
             await add(apparelName, image, genre, description);
             if (!addError) {
@@ -139,6 +148,9 @@ const Home = () => {
 
                     <Label htmlFor="description">Apparel Description:</Label>
                     <TextArea id="description" value={description} onChange={(e) => setDescription(e.target.value)} maxLength={100} required />
+
+                    {/* Honeypot field */}
+                    <HiddenHoneypot type="text" id="honeypot" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
 
                     <SubmitButton type="submit">Submit</SubmitButton>
                 </Form>

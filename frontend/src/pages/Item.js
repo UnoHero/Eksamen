@@ -71,7 +71,7 @@ const Item = () => {
     const { Item, addIsLoading, addError, itemData } = useItem();
     const { admin, adminIsLoading, adminError, answer } = useAdmin();
     const { del, delIsLoading, delError } = useDelete();
-    const { update, updateIsLoading, updateError } = useUpdate(); // Assuming you have a hook for updating
+    const { update, updateIsLoading, updateError } = useUpdate();
 
     const [isEditing, setIsEditing] = useState(false);
     const [editedItem, setEditedItem] = useState({
