@@ -34,9 +34,11 @@ const ItemBox = styled.div`
 
 const ItemImage = styled.img`
   max-width: 100%;
-  height: auto;
+  height: 400px; 
+  object-fit: cover; 
   border-radius: 4px;
 `;
+
 
 const LinkButton = styled(Link)`
   margin-top: 16px;

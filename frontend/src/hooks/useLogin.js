@@ -21,7 +21,6 @@ export const useLogin = () => {
       // send the user name and password to the backend
       body: JSON.stringify({ userName, password })
     })
-    console.log(JSON.stringify({ userName, password}));
     const json = await response.json()
 
     if (!response.ok) {

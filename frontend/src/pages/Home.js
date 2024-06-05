@@ -95,7 +95,7 @@ const Home = () => {
     useEffect(() => {
         if (!adminIsLoading) {
             if (answer === "true") {
-                console.log("Welcome, admin!");
+                //console.log("Welcome, admin!");
             } else {
                 window.location.href = "/";
             }

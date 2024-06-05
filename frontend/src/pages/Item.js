@@ -191,7 +191,7 @@ const Item = () => {
                         placeholder="Description"
                         maxLength={100}
                     />
-                    <Select id="genre" name="genre" placeholder="Genre" value={editedItem.description} onChange={handleInputChange} required>
+                    <Select id="genre" name="genre" placeholder="Genre" value={editedItem.genre} onChange={handleInputChange} required>
                         <option value="">Select Genre</option>
                         <option value="t-shirt">T-Shirt</option>
                         <option value="sweater">Sweater</option>

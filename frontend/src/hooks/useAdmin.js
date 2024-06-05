@@ -31,12 +31,11 @@ export const useAdmin = () => {
                     const errorData = await response.json();
                     setAdminError(errorData.error);
                 } else {
-                    console.log("Admin check successful");
+                    //console.log("Admin check successful");
                     const data = await response.json();
     
                     if (data.admin == "true") {
                         setAnswer(data.admin);
-                        console.log(data.admin);
                     }
                 }
             } catch (error) {

@@ -43,6 +43,22 @@ const ExpandedImage = styled.img`
   border-radius: 8px;
 `;
 
+const HomeButton = styled.button`
+  margin-top: 30px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
 const Help = () => {
   const [expandedImage, setExpandedImage] = useState(null);
 
@@ -53,6 +69,10 @@ const Help = () => {
   const handleCloseExpandedImage = () => {
     setExpandedImage(null);
   };
+
+  const handleClick = () => {
+    window.location.href = "/";
+  }
 
   return (
     <>
@@ -96,7 +116,11 @@ const Help = () => {
         </p>
         <p>
           <strong>2. Already have an account?</strong> Navigate back to the login page using the provided link if you already have an account.
-        </p>
+        </p> 
+
+        <HomeButton onClick={handleClick}>
+          Home Page
+        </HomeButton>
 
         {expandedImage && (
           <ExpandedImageContainer onClick={handleCloseExpandedImage}>
