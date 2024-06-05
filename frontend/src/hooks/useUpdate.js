@@ -6,14 +6,14 @@ export const useUpdate = () => {
   const [updateError, setError] = useState(null)
   const [updateIsLoading, setIsLoading] = useState(null)
 
-  // hook for updating a quote
+  const URL = process.env.REACT_APP_URL;
 
-  const update = async (itemID, newItem) => {
+  const update = async (itemId, newItem) => {
     setIsLoading(true)
     setError(null)
 
       // a patch request to update a quote quoteId is the id of the quote that is beeing updated.
-      const response = await fetch (``, {
+      const response = await fetch (URL + `/${itemId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

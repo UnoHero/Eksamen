@@ -108,20 +108,31 @@ const deleteItem = async (req, res) => {
 
 // update a Item
 const updateItem = async (req, res) => {
-  const { id } = req.params
+  const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({error: "No such Item"})
+    return res.status(404).json({ error: "No such Item" });
   }
 
-  const item = await Item.findOneAndUpdate({_id: id}, {body: req.body.newItem})
+  const newItem = req.body.newItem;
 
-  if (!item) {
-    return res.status(400).json({error: "no Such Item"})
+  try {
+    const item = await Item.findOneAndUpdate(
+      { _id: id },
+      { $set: newItem },
+      { new: true } // This returns the updated document
+    );
+
+    if (!item) {
+      return res.status(400).json({ error: "No such Item" });
+    }
+
+    res.status(200).json(item);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
   }
+};
 
-  res.status(200).json(item)
-}
 
 module.exports = {
   getItems,

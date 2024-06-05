@@ -78,7 +78,7 @@ const Signup = () => {
             return;
         }
         // Handle actual signup submission
-        console.log('Form submitted');
+        //console.log('Form submitted');
         await signup(userName, password);
     };
     

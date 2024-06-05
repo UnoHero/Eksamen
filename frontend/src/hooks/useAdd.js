@@ -35,7 +35,7 @@ export const useAdd = () => {
                 setError(errorData.error);
                 return;
             } else {
-                console.log("item saved sucsessfully!");
+                //console.log("item saved sucsessfully!");
             }
             
             setIsLoading(false);

@@ -76,7 +76,7 @@ const Login = () => {
             return;
         }
         // Handle actual login submission
-        console.log('Form submitted');
+        //console.log('Form submitted');
         await login(userName, password)
     };
 

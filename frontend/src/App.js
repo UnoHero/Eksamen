@@ -8,6 +8,7 @@ import './index.css';
 
 // Common Components
 import Header from "./components/Header";
+import HelpButton from "./components/HelpButton";
 
 // Pages
 import Start from "./pages/Start";
@@ -18,6 +19,7 @@ import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import NotFound from "./pages/NotFound";
+import Help from "./pages/Help";
 
 function App() {
   const { user } = useAuthContext();
@@ -43,6 +45,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
       <Header />
+      <HelpButton />
       <div>
         <Routes>
           <Route
@@ -57,6 +60,10 @@ function App() {
             path="/item/:kategori"
             element={<Catalogue />}
           />
+          <Route
+            path="/help"
+            element={<Help />}
+          />
           <Route  
             path="/:id"
             element={<Item />}
@@ -65,6 +72,7 @@ function App() {
             path="/cart"
             element={<Cart />} 
           />
+
           
           <Route
             path="/login"

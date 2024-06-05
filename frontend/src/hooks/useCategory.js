@@ -26,7 +26,6 @@ export const useCategory = () => {
         const errorData = await response.json();
         setError(errorData.error);
       } else {
-        console.log("Get fetch successful");
         const data = await response.json();
         setCategoryData(data);
       }

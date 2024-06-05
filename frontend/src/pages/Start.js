@@ -7,7 +7,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 90vh;
+  min-height: 80vh;
   padding: 20px;
 
   @media (max-width: 768px) {
@@ -34,9 +34,11 @@ const ItemBox = styled.div`
 
 const ItemImage = styled.img`
   max-width: 100%;
-  height: auto;
+  height: 400px; 
+  object-fit: cover; 
   border-radius: 4px;
 `;
+
 
 const LinkButton = styled(Link)`
   margin-top: 16px;
@@ -68,7 +70,7 @@ const Start = () => {
       {sweater && (
         <ItemBox>
           <div>
-            <ItemImage src={sweater.image} alt={sweater.name} />
+            <ItemImage src={sweater.image} alt={sweater.name + " sweater" } />
             <h2>{sweater.name}</h2>
             <p>{sweater.description}</p>
             <p>Genre: {sweater.genre}</p>
@@ -79,7 +81,7 @@ const Start = () => {
       {tShirt && (
         <ItemBox>
           <div>
-            <ItemImage src={tShirt.image} alt={tShirt.name} />
+            <ItemImage src={tShirt.image} alt={tShirt.name + " t-Shirt"} />
             <h2>{tShirt.name}</h2>
             <p>{tShirt.description}</p>
             <p>Genre: {tShirt.genre}</p>

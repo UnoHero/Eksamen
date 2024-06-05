@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
-import { useParams, redirect } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useItem } from "../hooks/useItem";
 import { useAdmin } from "../hooks/useAdmin";
 import { useDelete } from "../hooks/useDelete";
+import { useUpdate } from "../hooks/useUpdate"; // Assuming you have a hook for updating
 
 const ItemContainer = styled.div`
     padding: 20px;
@@ -11,11 +12,16 @@ const ItemContainer = styled.div`
     border-radius: 5px;
     max-width: 400px;
     text-align: center;
-    margin: 9% auto; 
+    margin: 8% auto; 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center; 
+
+    @media (max-width: 926px) {
+        margin: 26% auto;
+        overflow-y: hidden;
+    }
 `;
 
 const ItemImage = styled.img`
@@ -43,35 +49,120 @@ const StyledButton = styled(Button)`
     margin: 0 10px;
 `;
 
+const EditForm = styled.form`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 300px; 
+    width: 100%;
+    margin: 0 auto;
+
+    @media (max-width: 768px) {
+        max-width: 90%; 
+    }
+`;
+
+const Input = styled.input`
+    margin: 5px 0;
+    padding: 5px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+`;
+
+const TextArea = styled.textarea`
+    margin: 5px 0;
+    padding: 5px;
+    width: 100%;
+    height: 4em; 
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+`;
+
+
+
+const Select = styled.select`
+    margin-bottom: 15px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+`;
+
+const HiddenHoneypot = styled.input`
+    display: none;
+`;
+
 const Item = () => {
     let { id } = useParams();
     const { Item, addIsLoading, addError, itemData } = useItem();
     const { admin, adminIsLoading, adminError, answer } = useAdmin();
     const { del, delIsLoading, delError } = useDelete();
+    const { update, updateIsLoading, updateError } = useUpdate();
+
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedItem, setEditedItem] = useState({
+        name: '',
+        description: '',
+        genre: '',
+        image: ''
+    });
+    const [honeypot, setHoneypot] = useState(''); // Honeypot field
 
     useEffect(() => {
         admin();
-    }, []); 
+    }, []);
 
     useEffect(() => {
         Item(id);
     }, [id]);
 
+    useEffect(() => {
+        if (itemData) {
+            setEditedItem(itemData);
+        }
+    }, [itemData]);
+
     const handleDelete = async () => {
         try {
-            await del(id); 
+            await del(id);
             if (!delError) {
-                window.location.href = "/"
+                window.location.href = "/";
             }
         } catch (error) {
-            // Handle any unexpected errors
             console.error("Deletion failed:", error);
         }
     };
-    
 
     const handleEdit = () => {
-        // Logic for editing the item
+        setIsEditing(true);
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setEditedItem({
+            ...editedItem,
+            [name]: value
+        });
+    };
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        // If honeypot field is filled, do nothing
+        if (honeypot) {
+            console.log("Bot detected");
+            return;
+        }
+
+        try {
+            await update(id, editedItem);
+            if (!updateError) {
+                setIsEditing(false);
+                Item(id); 
+            }
+        } catch (error) {
+            console.error("Update failed:", error);
+        }
     };
 
     if (addIsLoading) {
@@ -79,20 +170,58 @@ const Item = () => {
     }
 
     if (addError) {
-        return <p>Error: {addError }</p>;
+        return <p>Error: {addError}</p>;
     }
 
     return (
         <ItemContainer>
-            <h2>{itemData.name}</h2>
-            <p>Description: {itemData.description}</p>
-            <p>Genre: {itemData.genre}</p>
-            <ItemImage src={itemData.image} alt={itemData.name} />
-            {answer && (
-                <ButtonContainer>
-                    <StyledButton onClick={handleDelete}>Delete</StyledButton>
-                    <StyledButton onClick={handleEdit}>Edit</StyledButton>
-                </ButtonContainer>
+            {isEditing ? (
+                <EditForm onSubmit={handleFormSubmit}>
+                    <Input
+                        type="text"
+                        name="name"
+                        value={editedItem.name}
+                        onChange={handleInputChange}
+                        placeholder="Name"
+                    />
+                    <TextArea
+                        name="description"
+                        value={editedItem.description}
+                        onChange={handleInputChange}
+                        placeholder="Description"
+                        maxLength={100}
+                    />
+                    <Select id="genre" name="genre" placeholder="Genre" value={editedItem.genre} onChange={handleInputChange} required>
+                        <option value="">Select Genre</option>
+                        <option value="t-shirt">T-Shirt</option>
+                        <option value="sweater">Sweater</option>
+                    </Select>
+                    <Input
+                        type="text"
+                        name="image"
+                        value={editedItem.image}
+                        onChange={handleInputChange}
+                        placeholder="Image URL"
+                    />
+                    {/* Honeypot field */}
+                    <HiddenHoneypot type="text" id="honeypot" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
+
+                    <Button type="submit">Save</Button>
+                    <Button onClick={() => setIsEditing(false)}>Cancel</Button>
+                </EditForm>
+            ) : (
+                <>
+                    <h2>{itemData.name}</h2>
+                    <p>Description: {itemData.description}</p>
+                    <p>Genre: {itemData.genre}</p>
+                    <ItemImage src={itemData.image} alt={itemData.name} />
+                    {answer && (
+                        <ButtonContainer>
+                            <StyledButton onClick={handleDelete}>Delete</StyledButton>
+                            <StyledButton onClick={handleEdit}>Edit</StyledButton>
+                        </ButtonContainer>
+                    )}
+                </>
             )}
         </ItemContainer>
     );

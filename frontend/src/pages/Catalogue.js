@@ -32,8 +32,12 @@ const Box = styled.div`
 `;
 
 const Image = styled.img`
-  max-width: 100%;
+  width: 200px; /* Set the desired width */
+  height: 200px; /* Set the desired height */
+  object-fit: cover; /* Maintain aspect ratio and cover the specified dimensions */
+  border-radius: 10px;
 `;
+
 
 const Name = styled.h3`
   margin: 10px 0;

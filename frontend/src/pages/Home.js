@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useAdd } from "../hooks/useAdd";
 import { useAdmin } from "../hooks/useAdmin";
 
-
 const HomeContainer = styled.div`
     display: flex;
     justify-content: center;
@@ -62,11 +61,21 @@ const SubmitButton = styled.button`
     }
 `;
 
+const HiddenHoneypot = styled.input`
+    display: none;
+`;
+
+const LoadingMessage = styled.div`
+    font-size: 1.5em;
+    color: #007bff;
+`;
+
 const Home = () => {
     const [apparelName, setApparelName] = useState('');
     const [image, setApparelImgUrl] = useState('');
     const [genre, setGenre] = useState('');
     const [description, setDescription] = useState('');
+    const [honeypot, setHoneypot] = useState(''); // Honeypot field
     const { add, addIsLoading, addError, ok } = useAdd();
     const { admin, adminIsLoading, adminError, answer } = useAdmin();
 
@@ -74,39 +83,51 @@ const Home = () => {
         const fetchAdminStatus = async () => {
             try {
                 await admin();
-                console.log(adminIsLoading);
-                if (adminIsLoading == false) {
-                    console.log(answer);
-                    if (answer == "true") {
-                        console.log("welcome");
-                    } else {
-                        //window.location.href = "/"
-                    }
-                }
             } catch (error) {
                 // Handle error if needed
                 console.error("Error fetching admin status:", error);
             }
         };
-    
+
         fetchAdminStatus();
     }, []);
 
+    useEffect(() => {
+        if (!adminIsLoading) {
+            if (answer === "true") {
+                //console.log("Welcome, admin!");
+            } else {
+                window.location.href = "/";
+            }
+        }
+    }, [adminIsLoading, answer]);
+
     const handleAddAparel = async (e) => {
         e.preventDefault();
-        // Pass the necessary values to the add function
+        // If honeypot field is filled, do nothing
+        if (honeypot) {
+            console.log("Bot detected");
+            return;
+        }
+
         try {
             await add(apparelName, image, genre, description);
             if (!addError) {
                 // Redirect user to "/" after successful addition
-                // window.location.href = "/"
+                //window.location.href = "/";
             }
         } catch (error) {
             console.error("Failed to add:", error);
         }
     };
 
-
+    if (adminIsLoading) {
+        return (
+            <HomeContainer>
+                <LoadingMessage>Loading...</LoadingMessage>
+            </HomeContainer>
+        );
+    }
 
     return (
         <HomeContainer>
@@ -127,6 +148,9 @@ const Home = () => {
 
                     <Label htmlFor="description">Apparel Description:</Label>
                     <TextArea id="description" value={description} onChange={(e) => setDescription(e.target.value)} maxLength={100} required />
+
+                    {/* Honeypot field */}
+                    <HiddenHoneypot type="text" id="honeypot" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
 
                     <SubmitButton type="submit">Submit</SubmitButton>
                 </Form>

@@ -6,14 +6,12 @@ import { useAuthContext } from '../hooks/useAuthContext';
 
 // Styled Components
 const HeaderContainer = styled.header`
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
     align-items: center;
-    justify-content: space-between;
     padding: 10px 20px;
     background-color: #f8f9fa;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: fixed;
-    width: 95%;
     top: 0;
     z-index: 1000;
 
@@ -23,13 +21,14 @@ const HeaderContainer = styled.header`
 `;
 
 const Logo = styled.img`
+    grid-column: 1 / span 2;
     width: 120px;
     height: auto;
 `;
 
 const WelcomeMessage = styled.div`
-    font-size: 1.1rem;
-    flex-grow: 1;
+    grid-column: 8 / span 2;
+    font-size: 1.3rem;
     text-align: center;
 
     @media (max-width: 768px) {
@@ -38,7 +37,9 @@ const WelcomeMessage = styled.div`
 `;
 
 const AuthButtons = styled.div`
-    display: flex;
+    grid-column: 15 / span 2;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 10px;
 
     @media (max-width: 768px) {
@@ -60,10 +61,12 @@ const Button = styled(Link)`
 `;
 
 const LoginButton = styled(Button)`
+    grid-column: 1 / span 1;
     background-color: #007bff;
 `;
 
 const SignUpButton = styled(Button)`
+    grid-column: 2 / span 1;
     background-color: #28a745;
 `;
 
@@ -71,6 +74,7 @@ const HomeLink = styled(Button)`
     background-color: #f8f9fa;
     color: #333;
     border: 1px solid #333;
+    grid-column: 1 / span 1;
 
     &:hover {
         background-color: #333;
@@ -78,18 +82,18 @@ const HomeLink = styled(Button)`
     }
 `;
 
-const LogoutButton = styled.button`
-    padding: 5px 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: #dc3545;
+const LogoutButton = styled(Button)`
+    background-color: #d62436;
     color: white;
-    cursor: pointer;
+    border: 1px solid #333;
+    grid-column: 2 / span 1;
 
     &:hover {
         background-color: #c82333;
     }
 `;
+
+
 
 const Header = () => {
     const { logout } = useLogout();
@@ -106,10 +110,10 @@ const Header = () => {
     return (
         <HeaderContainer>
             <Link to="/">
-                <Logo src="" alt="Logo" />
+                <Logo src="" alt="Rockit Logo" />
             </Link>
             <WelcomeMessage>
-                ThreadTrove {username && <span>-{username}</span>}
+                Rockit {username && <span>-{username}</span>}
             </WelcomeMessage>
             <AuthButtons>
                 {user ? (
