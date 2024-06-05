@@ -66,6 +66,10 @@ const TextArea = styled.textarea`
     border-radius: 5px;
 `;
 
+const HiddenHoneypot = styled.input`
+    display: none;
+`;
+
 const Item = () => {
     let { id } = useParams();
     const { Item, addIsLoading, addError, itemData } = useItem();
@@ -80,6 +84,7 @@ const Item = () => {
         genre: '',
         image: ''
     });
+    const [honeypot, setHoneypot] = useState(''); // Honeypot field
 
     useEffect(() => {
         admin();
@@ -120,11 +125,17 @@ const Item = () => {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
+        // If honeypot field is filled, do nothing
+        if (honeypot) {
+            console.log("Bot detected");
+            return;
+        }
+
         try {
             await update(id, editedItem);
             if (!updateError) {
                 setIsEditing(false);
-                Item(id); // Refresh the item data after updating
+                Item(id); 
             }
         } catch (error) {
             console.error("Update failed:", error);
@@ -170,6 +181,9 @@ const Item = () => {
                         onChange={handleInputChange}
                         placeholder="Image URL"
                     />
+                    {/* Honeypot field */}
+                    <HiddenHoneypot type="text" id="honeypot" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
+
                     <Button type="submit">Save</Button>
                     <Button onClick={() => setIsEditing(false)}>Cancel</Button>
                 </EditForm>
