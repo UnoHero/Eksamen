@@ -12,11 +12,16 @@ const ItemContainer = styled.div`
     border-radius: 5px;
     max-width: 400px;
     text-align: center;
-    margin: 9% auto; 
+    margin: 8% auto; 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center; 
+
+    @media (max-width: 926px) {
+        margin: 26% auto;
+        overflow-y: hidden;
+    }
 `;
 
 const ItemImage = styled.img`
@@ -48,6 +53,13 @@ const EditForm = styled.form`
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-width: 300px; 
+    width: 100%;
+    margin: 0 auto;
+
+    @media (max-width: 768px) {
+        max-width: 90%; 
+    }
 `;
 
 const Input = styled.input`
@@ -62,8 +74,19 @@ const TextArea = styled.textarea`
     margin: 5px 0;
     padding: 5px;
     width: 100%;
+    height: 4em; 
     border: 1px solid #ccc;
     border-radius: 5px;
+    resize: none;
+`;
+
+
+
+const Select = styled.select`
+    margin-bottom: 15px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 `;
 
 const HiddenHoneypot = styled.input`
@@ -166,14 +189,13 @@ const Item = () => {
                         value={editedItem.description}
                         onChange={handleInputChange}
                         placeholder="Description"
+                        maxLength={100}
                     />
-                    <Input
-                        type="text"
-                        name="genre"
-                        value={editedItem.genre}
-                        onChange={handleInputChange}
-                        placeholder="Genre"
-                    />
+                    <Select id="genre" name="genre" placeholder="Genre" value={editedItem.description} onChange={handleInputChange} required>
+                        <option value="">Select Genre</option>
+                        <option value="t-shirt">T-Shirt</option>
+                        <option value="sweater">Sweater</option>
+                    </Select>
                     <Input
                         type="text"
                         name="image"
