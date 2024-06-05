@@ -5,7 +5,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 export const useAdmin = () => {
     const { user } = useAuthContext();
     const [adminError, setAdminError] = useState(null);
-    const [adminIsLoading, setAdminIsLoading] = useState(false);
+    const [adminIsLoading, setAdminIsLoading] = useState(true);
     const [answer, setAnswer] = useState(null);
 
     const URL = process.env.REACT_APP_URL;
@@ -41,6 +41,7 @@ export const useAdmin = () => {
                 }
             } catch (error) {
                 setAdminError("An error occurred while checking admin status.");
+                setAdminIsLoading(false);
             } finally {
                 setAdminIsLoading(false);
             }

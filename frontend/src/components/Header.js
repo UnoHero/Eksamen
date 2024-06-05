@@ -28,7 +28,7 @@ const Logo = styled.img`
 `;
 
 const WelcomeMessage = styled.div`
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     flex-grow: 1;
     text-align: center;
 
@@ -109,7 +109,7 @@ const Header = () => {
                 <Logo src="" alt="Logo" />
             </Link>
             <WelcomeMessage>
-                ThreadTrove {username && <span>-{username}</span>}
+                Rockit {username && <span>-{username}</span>}
             </WelcomeMessage>
             <AuthButtons>
                 {user ? (

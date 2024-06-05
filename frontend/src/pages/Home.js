@@ -62,6 +62,11 @@ const SubmitButton = styled.button`
     }
 `;
 
+const LoadingMessage = styled.div`
+    font-size: 1.5em;
+    color: #007bff;
+`;
+
 const Home = () => {
     const [apparelName, setApparelName] = useState('');
     const [image, setApparelImgUrl] = useState('');
@@ -74,23 +79,24 @@ const Home = () => {
         const fetchAdminStatus = async () => {
             try {
                 await admin();
-                console.log(adminIsLoading);
-                if (adminIsLoading == false) {
-                    console.log(answer);
-                    if (answer == "true") {
-                        console.log("welcome");
-                    } else {
-                        //window.location.href = "/"
-                    }
-                }
             } catch (error) {
                 // Handle error if needed
                 console.error("Error fetching admin status:", error);
             }
         };
-    
+
         fetchAdminStatus();
     }, []);
+
+    useEffect(() => {
+        if (!adminIsLoading) {
+            if (answer === "true") {
+                console.log("Welcome, admin!");
+            } else {
+                window.location.href = "/";
+            }
+        }
+    }, [adminIsLoading, answer]);
 
     const handleAddAparel = async (e) => {
         e.preventDefault();
@@ -99,14 +105,20 @@ const Home = () => {
             await add(apparelName, image, genre, description);
             if (!addError) {
                 // Redirect user to "/" after successful addition
-                // window.location.href = "/"
+                //window.location.href = "/";
             }
         } catch (error) {
             console.error("Failed to add:", error);
         }
     };
 
-
+    if (adminIsLoading) {
+        return (
+            <HomeContainer>
+                <LoadingMessage>Loading...</LoadingMessage>
+            </HomeContainer>
+        );
+    }
 
     return (
         <HomeContainer>
